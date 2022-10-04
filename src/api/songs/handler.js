@@ -26,22 +26,6 @@ class SongsHandler {
     return response;
   }
 
-  async getSongsHandler() {
-    const songs = await this._service.getSongs();
-    return {
-      status: 'success',
-      data: {
-        songs: songs.map((song) => ({
-          id: song.id,
-          title: song.title,
-          performer: song.performer
-        })),
-      },
-    };
-    response.code(201);
-    return response;
-  }
-
   async getSongByIdHandler(request) {
     const { id } = request.params;
     const song = await this._service.getSongById(id);
@@ -49,6 +33,19 @@ class SongsHandler {
       status: 'success',
       data: {
         song,
+      },
+    };
+    response.code(201);
+    return response;
+  }
+
+  async getSongsHandler(request) {
+    const songs = await this._service.getSongs(request.query);
+
+    return {
+      status: 'success',
+      data: {
+        songs,
       },
     };
     response.code(201);
